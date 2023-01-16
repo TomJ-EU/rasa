@@ -1,0 +1,305 @@
+apiVersion: move2kube.konveyor.io/v1alpha1
+kind: QACache
+spec:
+  solutions:
+    - id: move2kube.transformerselector
+      type: Input
+      description: Specify a Kubernetes style selector to select only the transformers that you want to run.
+      hints:
+        - Leave empty to select everything. This is the default.
+      default: ""
+      answer: ""
+    - id: move2kube.transformers.types
+      type: MultiSelect
+      description: 'Select all transformer types that you are interested in:'
+      hints:
+        - Services that don't support any of the transformer types you are interested in will be ignored.
+      options:
+        - ArgoCD
+        - Buildconfig
+        - CloudFoundry
+        - ClusterSelector
+        - ComposeAnalyser
+        - ComposeGenerator
+        - ContainerImagesPushScriptGenerator
+        - DockerfileDetector
+        - DockerfileImageBuildScript
+        - DockerfileParser
+        - DotNetCore-Dockerfile
+        - EarAnalyser
+        - EarRouter
+        - Golang-Dockerfile
+        - Gradle
+        - Jar
+        - Jboss
+        - Knative
+        - Kubernetes
+        - KubernetesVersionChanger
+        - Liberty
+        - Maven
+        - Nodejs-Dockerfile
+        - OperatorTransformer
+        - PHP-Dockerfile
+        - Parameterizer
+        - Python-Dockerfile
+        - ReadMeGenerator
+        - Ruby-Dockerfile
+        - Rust-Dockerfile
+        - Tekton
+        - Tomcat
+        - WarAnalyser
+        - WarRouter
+        - WinWebApp-Dockerfile
+        - ZuulAnalyser
+      default:
+        - Jar
+        - PHP-Dockerfile
+        - KubernetesVersionChanger
+        - CloudFoundry
+        - ComposeGenerator
+        - Tekton
+        - Ruby-Dockerfile
+        - Parameterizer
+        - EarRouter
+        - Gradle
+        - Golang-Dockerfile
+        - DockerfileImageBuildScript
+        - Jboss
+        - Knative
+        - Liberty
+        - WarRouter
+        - DotNetCore-Dockerfile
+        - ContainerImagesPushScriptGenerator
+        - ReadMeGenerator
+        - WarAnalyser
+        - Buildconfig
+        - ZuulAnalyser
+        - Rust-Dockerfile
+        - DockerfileParser
+        - Maven
+        - Kubernetes
+        - ClusterSelector
+        - ComposeAnalyser
+        - Nodejs-Dockerfile
+        - Python-Dockerfile
+        - DockerfileDetector
+        - EarAnalyser
+        - Tomcat
+        - ArgoCD
+        - OperatorTransformer
+        - WinWebApp-Dockerfile
+      answer:
+        - ArgoCD
+        - Buildconfig
+        - CloudFoundry
+        - ClusterSelector
+        - ComposeAnalyser
+        - ComposeGenerator
+        - ContainerImagesPushScriptGenerator
+        - DockerfileDetector
+        - DockerfileImageBuildScript
+        - DockerfileParser
+        - DotNetCore-Dockerfile
+        - EarAnalyser
+        - EarRouter
+        - Golang-Dockerfile
+        - Gradle
+        - Jar
+        - Jboss
+        - Knative
+        - Kubernetes
+        - KubernetesVersionChanger
+        - Liberty
+        - Maven
+        - Nodejs-Dockerfile
+        - OperatorTransformer
+        - PHP-Dockerfile
+        - Parameterizer
+        - Python-Dockerfile
+        - ReadMeGenerator
+        - Ruby-Dockerfile
+        - Rust-Dockerfile
+        - Tekton
+        - Tomcat
+        - WarAnalyser
+        - WarRouter
+        - WinWebApp-Dockerfile
+        - ZuulAnalyser
+    - id: move2kube.services.[].enable
+      type: MultiSelect
+      description: 'Select all services that are needed:'
+      hints:
+        - The services unselected here will be ignored.
+      options:
+        - actions
+        - chatbotui
+        - mysql
+        - nginx
+        - rasa
+      default:
+        - actions
+        - chatbotui
+        - mysql
+        - nginx
+        - rasa
+      answer:
+        - actions
+        - chatbotui
+        - mysql
+        - nginx
+        - rasa
+    - id: move2kube.target."default".clustertype
+      type: Select
+      description: 'Choose the cluster type:'
+      hints:
+        - Choose the cluster type you would like to target
+      options:
+        - IBM-Openshift
+        - Kubernetes
+        - Openshift
+        - AWS-EKS
+        - Azure-AKS
+        - GCP-GKE
+        - IBM-IKS
+      default: Kubernetes
+      answer: Kubernetes
+    - id: move2kube.services."mysql"."3306".servicetype
+      type: Select
+      description: What kind of service/ingress should be created for the service mysql's 3306 port?
+      hints:
+        - Choose Ingress if you want a ingress/route resource to be created
+      options:
+        - Ingress
+        - LoadBalancer
+        - NodePort
+        - ClusterIP
+        - Don't create service
+      default: Ingress
+      answer: ClusterIP
+    - id: move2kube.services."nginx"."80".servicetype
+      type: Select
+      description: What kind of service/ingress should be created for the service nginx's 80 port?
+      hints:
+        - Choose Ingress if you want a ingress/route resource to be created
+      options:
+        - Ingress
+        - LoadBalancer
+        - NodePort
+        - ClusterIP
+        - Don't create service
+      default: Ingress
+      answer: ClusterIP
+    - id: move2kube.services."chatbotui"."3000".servicetype
+      type: Select
+      description: What kind of service/ingress should be created for the service chatbotui's 3000 port?
+      hints:
+        - Choose Ingress if you want a ingress/route resource to be created
+      options:
+        - Ingress
+        - LoadBalancer
+        - NodePort
+        - ClusterIP
+        - Don't create service
+      default: Ingress
+      answer: Ingress
+    - id: move2kube.services."chatbotui"."3000".urlpath
+      type: Input
+      description: Specify the ingress path to expose the service chatbotui's 3000 port on?
+      hints:
+        - Leave out leading / to use first part as subdomain
+      default: /chatbotui
+      answer: /
+    - id: move2kube.services."actions"."5055".servicetype
+      type: Select
+      description: What kind of service/ingress should be created for the service actions's 5055 port?
+      hints:
+        - Choose Ingress if you want a ingress/route resource to be created
+      options:
+        - Ingress
+        - LoadBalancer
+        - NodePort
+        - ClusterIP
+        - Don't create service
+      default: Ingress
+      answer: ClusterIP
+    - id: move2kube.services."rasa"."5005".servicetype
+      type: Select
+      description: What kind of service/ingress should be created for the service rasa's 5005 port?
+      hints:
+        - Choose Ingress if you want a ingress/route resource to be created
+      options:
+        - Ingress
+        - LoadBalancer
+        - NodePort
+        - ClusterIP
+        - Don't create service
+      default: Ingress
+      answer: ClusterIP
+    - id: move2kube.minreplicas
+      type: Input
+      description: Provide the minimum number of replicas each service should have
+      hints:
+        - If the value is 0 pods won't be started by default
+      default: "2"
+      answer: "1"
+    - id: move2kube.target.imageregistry.url
+      type: Select
+      description: 'Enter the URL of the image registry where the new images should be pushed : '
+      hints:
+        - You can always change it later by changing the yamls.
+      options:
+        - Other (specify custom option)
+        - index.docker.io
+        - quay.io
+      default: quay.io
+      answer: index.docker.io
+    - id: move2kube.target.imageregistry.namespace
+      type: Input
+      description: 'Enter the namespace where the new images should be pushed : '
+      hints:
+        - 'Ex : myproject'
+      default: myproject
+      answer: myproject
+    - id: move2kube.target.imageregistry."tomjacobseu".logintype
+      type: Select
+      description: '[tomjacobseu] What type of container registry login do you want to use?'
+      hints:
+        - Docker login from config mode, will use the default config from your local machine.
+      options:
+        - use an existing pull secret
+        - no authentication
+        - username and password
+      default: no authentication
+      answer: no authentication
+    - id: move2kube.target.imageregistry."index.docker.io".logintype
+      type: Select
+      description: '[index.docker.io] What type of container registry login do you want to use?'
+      hints:
+        - Docker login from config mode, will use the default config from your local machine.
+      options:
+        - use an existing pull secret
+        - no authentication
+        - username and password
+      default: no authentication
+      answer: no authentication
+    - id: move2kube.target."default".ingress.ingressclassname
+      type: Input
+      description: Provide the Ingress class name for ingress
+      hints:
+        - Leave empty to use the cluster default
+      default: ""
+      answer: ""
+    - id: move2kube.target."default".ingress.host
+      type: Input
+      description: Provide the ingress host domain
+      hints:
+        - Ingress host domain is part of service URL
+      default: myproject.com
+      answer: myproject.com
+    - id: move2kube.target."default".ingress.tls
+      type: Input
+      description: Provide the TLS secret for ingress
+      hints:
+        - Leave empty to use http
+      default: ""
+      answer: ""

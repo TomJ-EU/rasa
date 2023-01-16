@@ -1,0 +1,40 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    creationTimestamp: null
+    labels:
+        move2kube.konveyor.io/service: mysql
+    name: mysql
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            move2kube.konveyor.io/service: mysql
+    strategy: {}
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                move2kube.konveyor.io/service: mysql
+            name: mysql
+        spec:
+            containers:
+                - env:
+                    - name: MYSQL_ROOT_PASSWORD
+                      value: password
+                    - name: MYSQL_DATABASE
+                      value: db
+                  image: index.docker.io/myproject/mysql:latest
+                  imagePullPolicy: Always
+                  name: db
+                  ports:
+                    - containerPort: 3306
+                      protocol: TCP
+                  resources: {}
+            restartPolicy: Always
+            securityContext: {}
+status: {}
+
+...

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    move2kube.konveyor.io/service: chatbotui
+  name: chatbotui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      move2kube.konveyor.io/service: chatbotui
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: chatbotui
+      name: chatbotui
+    spec:
+      containers:
+        - image: index.docker.io/tomjacobseu/chatbotui:latest
+          imagePullPolicy: Always
+          name: chatbot-ui
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+      securityContext: {}
+status: {}

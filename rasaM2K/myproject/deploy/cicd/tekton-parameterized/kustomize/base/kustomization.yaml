@@ -1,0 +1,13 @@
+resources:
+  - myproject-clone-push-serviceaccount.yaml
+  - myproject-image-registry-secret.yaml
+  - myproject-ingress.yaml
+  - myproject-tekton-triggers-admin-role.yaml
+  - myproject-tekton-triggers-admin-serviceaccount.yaml
+  - vol5673202223121082122-persistentvolumeclaim.yaml
+  - myproject-clone-build-push-pipeline.yaml
+  - myproject-git-event-triggerbinding.yaml
+  - myproject-git-repo-eventlistener.yaml
+  - myproject-run-clone-build-push-triggertemplate.yaml
+  - myproject-tekton-triggers-admin-rolebinding.yaml
+  - vol15225444717140246429-persistentvolumeclaim.yaml

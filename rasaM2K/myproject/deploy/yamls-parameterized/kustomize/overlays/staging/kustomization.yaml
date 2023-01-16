@@ -1,0 +1,33 @@
+patches:
+  - path: apps-v1-deployment-chatbotui.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: chatbotui
+  - path: apps-v1-deployment-nginx.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: nginx
+  - path: apps-v1-deployment-actions.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: actions
+  - path: apps-v1-deployment-mysql.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: mysql
+  - path: apps-v1-deployment-rasa.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: rasa
+resources:
+  - ../../base

@@ -1,0 +1,14 @@
+resources:
+  - actions-deployment.yaml
+  - myproject-ingress.yaml
+  - mysql-deployment.yaml
+  - nginx-service.yaml
+  - rasa-deployment.yaml
+  - rasa-service.yaml
+  - vol15225444717140246429-persistentvolumeclaim.yaml
+  - actions-service.yaml
+  - chatbotui-deployment.yaml
+  - chatbotui-service.yaml
+  - mysql-service.yaml
+  - nginx-deployment.yaml
+  - vol5673202223121082122-persistentvolumeclaim.yaml

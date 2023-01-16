@@ -1,0 +1,78 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - give_name
+  - get
+  - test
+
+forms:
+  name_form:
+    required_slots:
+      - first_name
+      - last_name
+
+slots:
+  first_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: name_form
+          requested_slot: first_name
+  last_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: name_form
+          requested_slot: last_name
+
+actions:
+  - action_save_to_db
+  - action_hello_world
+  - action_get_all_from_db
+          
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+    buttons:
+    - title: "great"
+      payload: "/mood_great"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_ask_first_name:
+  - text: "What is your first name?"
+
+  utter_ask_last_name:
+  - text: "{first_name}, what is your last name?"
+
+  utter_slots_values:
+  - text: "Your name is {first_name} {last_name}."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,21 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    creationTimestamp: null
+    labels:
+        move2kube.konveyor.io/service: rasa
+    name: rasa
+spec:
+    ports:
+        - name: port-5005
+          port: 5005
+          targetPort: 5005
+    selector:
+        move2kube.konveyor.io/service: rasa
+    type: ClusterIP
+status:
+    loadBalancer: {}
+
+...

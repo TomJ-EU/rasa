@@ -1,0 +1,6 @@
+resources:
+  - actions-service.yaml
+  - chatbotui-service.yaml
+  - mysql-service.yaml
+  - nginx-service.yaml
+  - rasa-service.yaml

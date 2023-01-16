@@ -1,0 +1,42 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    creationTimestamp: null
+    labels:
+        move2kube.konveyor.io/service: nginx
+    name: nginx
+spec:
+    replicas: {{ index .Values "common" "replicas" }}
+    selector:
+        matchLabels:
+            move2kube.konveyor.io/service: nginx
+    strategy: {}
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                move2kube.konveyor.io/service: nginx
+            name: nginx
+        spec:
+            containers:
+                - image: nginx
+                  imagePullPolicy: Always
+                  name: nginx
+                  ports:
+                    - containerPort: 80
+                      protocol: TCP
+                  resources: {}
+                  volumeMounts:
+                    - mountPath: /etc/nginx/nginx.conf
+                      name: vol5673202223121082122
+            restartPolicy: Always
+            securityContext: {}
+            volumes:
+                - name: vol5673202223121082122
+                  persistentVolumeClaim:
+                    claimName: vol5673202223121082122
+status: {}
+
+...

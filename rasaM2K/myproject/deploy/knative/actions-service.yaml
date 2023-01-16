@@ -1,0 +1,30 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    move2kube.konveyor.io/service: actions
+  name: actions
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+        - image: index.docker.io/myproject/actions:latest
+          imagePullPolicy: Always
+          name: action-server
+          ports:
+            - containerPort: 5055
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /app/actions
+              name: vol15225444717140246429
+      restartPolicy: Always
+      securityContext: {}
+      volumes:
+        - name: vol15225444717140246429
+          persistentVolumeClaim:
+            claimName: vol15225444717140246429
+status: {}

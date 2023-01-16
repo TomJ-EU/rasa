@@ -1,0 +1,147 @@
+apiVersion: move2kube.konveyor.io/v1alpha1
+kind: Plan
+metadata:
+  name: myproject
+spec:
+  sourceDir: rasa1
+  services:
+    actions:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - actions\Dockerfile
+          ServiceDirectories:
+            - actions
+        configs:
+          ComposeService:
+            serviceName: actions
+      - transformerName: Python-Dockerfile
+        paths:
+          MainPythonFilesPathType: []
+          PythonFilesPathType:
+            - actions\__init__.py
+            - actions\actions.py
+          ServiceDirectories:
+            - actions
+        configs:
+          OriginalName:
+            originalName: actions
+          PythonConfig:
+            IsDjango: false
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - actions\Dockerfile
+          ServiceDirectories:
+            - actions
+    chatbotui:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - frontend\Dockerfile
+          ServiceDirectories:
+            - frontend
+        configs:
+          ComposeService:
+            serviceName: chatbotui
+      - transformerName: Nodejs-Dockerfile
+        paths:
+          ServiceDirectories:
+            - frontend
+        configs:
+          OriginalName:
+            originalName: chatbotui
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - frontend\Dockerfile
+          ServiceDirectories:
+            - frontend
+    mysql:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - db\Dockerfile
+          ServiceDirectories:
+            - db
+        configs:
+          ComposeService:
+            serviceName: mysql
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - db\Dockerfile
+          ServiceDirectories:
+            - db
+    nginx:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: nginx
+    rasa:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - backend\Dockerfile
+          ServiceDirectories:
+            - backend
+        configs:
+          ComposeService:
+            serviceName: rasa
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - backend\Dockerfile
+          ServiceDirectories:
+            - backend
+  transformers:
+    ArgoCD: m2kassets\built-in\transformers\kubernetes\argocd\transformer.yaml
+    Buildconfig: m2kassets\built-in\transformers\kubernetes\buildconfig\transformer.yaml
+    CloudFoundry: m2kassets\built-in\transformers\cloudfoundry\transformer.yaml
+    ClusterSelector: m2kassets\built-in\transformers\kubernetes\clusterselector\transformer.yaml
+    ComposeAnalyser: m2kassets\built-in\transformers\compose\composeanalyser\transformer.yaml
+    ComposeGenerator: m2kassets\built-in\transformers\compose\composegenerator\transformer.yaml
+    ContainerImagesPushScriptGenerator: m2kassets\built-in\transformers\containerimagespushscript\transformer.yaml
+    DockerfileDetector: m2kassets\built-in\transformers\dockerfile\dockerfiledetector\transformer.yaml
+    DockerfileImageBuildScript: m2kassets\built-in\transformers\dockerfile\dockerimagebuildscript\transformer.yaml
+    DockerfileParser: m2kassets\built-in\transformers\dockerfile\dockerfileparser\transformer.yaml
+    DotNetCore-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\dotnetcore\transformer.yaml
+    EarAnalyser: m2kassets\built-in\transformers\dockerfilegenerator\java\earanalyser\transformer.yaml
+    EarRouter: m2kassets\built-in\transformers\dockerfilegenerator\java\earrouter\transformer.yaml
+    Golang-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\golang\transformer.yaml
+    Gradle: m2kassets\built-in\transformers\dockerfilegenerator\java\gradle\transformer.yaml
+    Jar: m2kassets\built-in\transformers\dockerfilegenerator\java\jar\transformer.yaml
+    Jboss: m2kassets\built-in\transformers\dockerfilegenerator\java\jboss\transformer.yaml
+    Knative: m2kassets\built-in\transformers\kubernetes\knative\transformer.yaml
+    Kubernetes: m2kassets\built-in\transformers\kubernetes\kubernetes\transformer.yaml
+    KubernetesVersionChanger: m2kassets\built-in\transformers\kubernetes\kubernetesversionchanger\transformer.yaml
+    Liberty: m2kassets\built-in\transformers\dockerfilegenerator\java\liberty\transformer.yaml
+    Maven: m2kassets\built-in\transformers\dockerfilegenerator\java\maven\transformer.yaml
+    Nodejs-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\nodejs\transformer.yaml
+    OperatorTransformer: m2kassets\built-in\transformers\kubernetes\operator\transformer.yaml
+    PHP-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\php\transformer.yaml
+    Parameterizer: m2kassets\built-in\transformers\kubernetes\parameterizer\transformer.yaml
+    Python-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\python\transformer.yaml
+    ReadMeGenerator: m2kassets\built-in\transformers\readmegenerator\transformer.yaml
+    Ruby-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\ruby\transformer.yaml
+    Rust-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\rust\transformer.yaml
+    Tekton: m2kassets\built-in\transformers\kubernetes\tekton\transformer.yaml
+    Tomcat: m2kassets\built-in\transformers\dockerfilegenerator\java\tomcat\transformer.yaml
+    WarAnalyser: m2kassets\built-in\transformers\dockerfilegenerator\java\waranalyser\transformer.yaml
+    WarRouter: m2kassets\built-in\transformers\dockerfilegenerator\java\warrouter\transformer.yaml
+    WinWebApp-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\windows\winweb\transformer.yaml
+    ZuulAnalyser: m2kassets\built-in\transformers\dockerfilegenerator\java\zuul\transformer.yaml
+  disabledTransformers:
+    WinConsoleApp-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\windows\winconsole\transformer.yaml
+    WinSLWebApp-Dockerfile: m2kassets\built-in\transformers\dockerfilegenerator\windows\winsilverlightweb\transformer.yaml

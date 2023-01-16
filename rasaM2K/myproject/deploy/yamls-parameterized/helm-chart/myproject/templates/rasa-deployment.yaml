@@ -1,0 +1,35 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    creationTimestamp: null
+    labels:
+        move2kube.konveyor.io/service: rasa
+    name: rasa
+spec:
+    replicas: {{ index .Values "common" "replicas" }}
+    selector:
+        matchLabels:
+            move2kube.konveyor.io/service: rasa
+    strategy: {}
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                move2kube.konveyor.io/service: rasa
+            name: rasa
+        spec:
+            containers:
+                - image: index.docker.io/myproject/rasa:latest
+                  imagePullPolicy: Always
+                  name: rasa-server
+                  ports:
+                    - containerPort: 5005
+                      protocol: TCP
+                  resources: {}
+            restartPolicy: Always
+            securityContext: {}
+status: {}
+
+...

@@ -1,0 +1,319 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: myproject-template
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  finalizers: []
+  clustername: ""
+  managedfields: []
+objects:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: nginx
+      name: nginx
+    spec:
+      replicas: ${{COMMON_REPLICAS}}
+      selector:
+        matchLabels:
+          move2kube.konveyor.io/service: nginx
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            move2kube.konveyor.io/service: nginx
+          name: nginx
+        spec:
+          containers:
+            - image: nginx
+              imagePullPolicy: Always
+              name: nginx
+              ports:
+                - containerPort: 80
+                  protocol: TCP
+              resources: {}
+              volumeMounts:
+                - mountPath: /etc/nginx/nginx.conf
+                  name: vol5673202223121082122
+          restartPolicy: Always
+          securityContext: {}
+          volumes:
+            - name: vol5673202223121082122
+              persistentVolumeClaim:
+                claimName: vol5673202223121082122
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      name: vol5673202223121082122
+    spec:
+      resources: {}
+    status: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: actions
+      name: actions
+    spec:
+      ports:
+        - name: port-5055
+          port: 5055
+          targetPort: 5055
+      selector:
+        move2kube.konveyor.io/service: actions
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: chatbotui
+      name: chatbotui
+    spec:
+      replicas: ${{COMMON_REPLICAS}}
+      selector:
+        matchLabels:
+          move2kube.konveyor.io/service: chatbotui
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            move2kube.konveyor.io/service: chatbotui
+          name: chatbotui
+        spec:
+          containers:
+            - image: index.docker.io/myproject/chatbotui:latest
+              imagePullPolicy: Always
+              name: chatbot-ui
+              ports:
+                - containerPort: 3000
+                  protocol: TCP
+              resources: {}
+          restartPolicy: Always
+          securityContext: {}
+    status: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: chatbotui
+      name: chatbotui
+    spec:
+      ports:
+        - name: port-3000
+          port: 3000
+          targetPort: 3000
+      selector:
+        move2kube.konveyor.io/service: chatbotui
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: mysql
+      name: mysql
+    spec:
+      ports:
+        - name: port-3306
+          port: 3306
+          targetPort: 3306
+      selector:
+        move2kube.konveyor.io/service: mysql
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: rasa
+      name: rasa
+    spec:
+      replicas: ${{COMMON_REPLICAS}}
+      selector:
+        matchLabels:
+          move2kube.konveyor.io/service: rasa
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            move2kube.konveyor.io/service: rasa
+          name: rasa
+        spec:
+          containers:
+            - image: index.docker.io/myproject/rasa:latest
+              imagePullPolicy: Always
+              name: rasa-server
+              ports:
+                - containerPort: 5005
+                  protocol: TCP
+              resources: {}
+          restartPolicy: Always
+          securityContext: {}
+    status: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: rasa
+      name: rasa
+    spec:
+      ports:
+        - name: port-5005
+          port: 5005
+          targetPort: 5005
+      selector:
+        move2kube.konveyor.io/service: rasa
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      name: vol15225444717140246429
+    spec:
+      resources: {}
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: actions
+      name: actions
+    spec:
+      replicas: ${{COMMON_REPLICAS}}
+      selector:
+        matchLabels:
+          move2kube.konveyor.io/service: actions
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            move2kube.konveyor.io/service: actions
+          name: actions
+        spec:
+          containers:
+            - image: index.docker.io/myproject/actions:latest
+              imagePullPolicy: Always
+              name: action-server
+              ports:
+                - containerPort: 5055
+                  protocol: TCP
+              resources: {}
+              volumeMounts:
+                - mountPath: /app/actions
+                  name: vol15225444717140246429
+          restartPolicy: Always
+          securityContext: {}
+          volumes:
+            - name: vol15225444717140246429
+              persistentVolumeClaim:
+                claimName: vol15225444717140246429
+    status: {}
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: myproject
+      name: myproject
+    spec:
+      rules:
+        - host: myproject.com
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: chatbotui
+                    port:
+                      name: port-3000
+                path: /
+                pathType: Prefix
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: mysql
+      name: mysql
+    spec:
+      replicas: ${{COMMON_REPLICAS}}
+      selector:
+        matchLabels:
+          move2kube.konveyor.io/service: mysql
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            move2kube.konveyor.io/service: mysql
+          name: mysql
+        spec:
+          containers:
+            - env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: password
+                - name: MYSQL_DATABASE
+                  value: db
+              image: index.docker.io/myproject/mysql:latest
+              imagePullPolicy: Always
+              name: db
+              ports:
+                - containerPort: 3306
+                  protocol: TCP
+              resources: {}
+          restartPolicy: Always
+          securityContext: {}
+    status: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: nginx
+      name: nginx
+    spec:
+      ports:
+        - name: port-80
+          port: 80
+          targetPort: 80
+      selector:
+        move2kube.konveyor.io/service: nginx
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+parameters:
+  - name: COMMON_REPLICAS
+    value: "1"

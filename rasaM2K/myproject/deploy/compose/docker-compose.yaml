@@ -1,0 +1,35 @@
+version: "3.5"
+services:
+  actions:
+    container_name: action-server
+    image: index.docker.io/myproject/actions:latest
+    ports:
+      - target: 5055
+        published: 8083
+  chatbotui:
+    container_name: chatbot-ui
+    image: index.docker.io/myproject/chatbotui:latest
+    ports:
+      - target: 3000
+        published: 8082
+  mysql:
+    container_name: db
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: db
+    image: index.docker.io/myproject/mysql:latest
+    ports:
+      - target: 3306
+        published: 8080
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - target: 80
+        published: 8081
+  rasa:
+    container_name: rasa-server
+    image: index.docker.io/myproject/rasa:latest
+    ports:
+      - target: 5005
+        published: 8084

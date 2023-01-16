@@ -1,0 +1,77 @@
+move2kube:
+  minreplicas: "1"
+  services:
+    actions:
+      "5055":
+        servicetype: ClusterIP
+      enable: true
+    chatbotui:
+      "3000":
+        servicetype: Ingress
+        urlpath: /
+      enable: true
+    mysql:
+      "3306":
+        servicetype: ClusterIP
+      enable: true
+    nginx:
+      "80":
+        servicetype: ClusterIP
+      enable: true
+    rasa:
+      "5005":
+        servicetype: ClusterIP
+      enable: true
+  target:
+    default:
+      clustertype: Kubernetes
+      ingress:
+        host: myproject.com
+        ingressclassname: ""
+        tls: ""
+    imageregistry:
+      index.docker.io:
+        logintype: no authentication
+      namespace: myproject
+      tomjacobseu:
+        logintype: no authentication
+      url: index.docker.io
+  transformers:
+    types:
+      - ArgoCD
+      - Buildconfig
+      - CloudFoundry
+      - ClusterSelector
+      - ComposeAnalyser
+      - ComposeGenerator
+      - ContainerImagesPushScriptGenerator
+      - DockerfileDetector
+      - DockerfileImageBuildScript
+      - DockerfileParser
+      - DotNetCore-Dockerfile
+      - EarAnalyser
+      - EarRouter
+      - Golang-Dockerfile
+      - Gradle
+      - Jar
+      - Jboss
+      - Knative
+      - Kubernetes
+      - KubernetesVersionChanger
+      - Liberty
+      - Maven
+      - Nodejs-Dockerfile
+      - OperatorTransformer
+      - PHP-Dockerfile
+      - Parameterizer
+      - Python-Dockerfile
+      - ReadMeGenerator
+      - Ruby-Dockerfile
+      - Rust-Dockerfile
+      - Tekton
+      - Tomcat
+      - WarAnalyser
+      - WarRouter
+      - WinWebApp-Dockerfile
+      - ZuulAnalyser
+  transformerselector: ""

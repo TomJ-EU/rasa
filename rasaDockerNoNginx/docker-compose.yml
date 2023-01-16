@@ -1,0 +1,37 @@
+version: '3.0'
+services:
+    rasa:
+      container_name: "rasa_server"
+      build: 
+        context: backend
+      restart: always
+      ports: 
+        - "5005:5005"
+    action-server:
+      container_name: "action_server"
+      build: 
+        context: actions
+      restart: always
+      volumes:
+        - ./actions:/app/actions
+      ports:
+        - "5055:5055"
+      depends_on:
+        - mysql
+    chatbotui:
+      container_name: "chatbot_ui"
+      build: 
+        context: frontend
+      restart: always
+      ports: 
+        - "3000:3000"
+    mysql:
+      container_name: "db"
+      build:
+        context: db
+      restart: always
+      environment:
+        MYSQL_DATABASE: "db"
+        MYSQL_ROOT_PASSWORD: 'password'
+      ports:
+        - "3306:3306"

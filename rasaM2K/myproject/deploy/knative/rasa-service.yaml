@@ -1,0 +1,23 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    move2kube.konveyor.io/service: rasa
+  name: rasa
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+        - image: index.docker.io/myproject/rasa:latest
+          imagePullPolicy: Always
+          name: rasa-server
+          ports:
+            - containerPort: 5005
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+      securityContext: {}
+status: {}

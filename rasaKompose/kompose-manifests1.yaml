@@ -1,0 +1,315 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: action-server
+      name: action-server
+    spec:
+      ports:
+        - name: "5055"
+          port: 5055
+          targetPort: 5055
+      selector:
+        io.kompose.service: action-server
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: chatbotui
+      name: chatbotui
+    spec:
+      ports:
+        - name: "3000"
+          port: 3000
+          targetPort: 3000
+      selector:
+        io.kompose.service: chatbotui
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+      name: mysql
+    spec:
+      ports:
+        - name: "3306"
+          port: 3306
+          targetPort: 3306
+      selector:
+        io.kompose.service: mysql
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nginx
+      name: nginx
+    spec:
+      ports:
+        - name: "80"
+          port: 80
+          targetPort: 80
+      selector:
+        io.kompose.service: nginx
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: rasa
+      name: rasa
+    spec:
+      ports:
+        - name: "5005"
+          port: 5005
+          targetPort: 5005
+      selector:
+        io.kompose.service: rasa
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: action-server
+      name: action-server
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: action-server
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+            kompose.version: 1.27.0 (b0ed6a2c9)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: action-server
+        spec:
+          containers:
+            - image: tomjacobseu/kompose-actionserver:1.0
+              name: action-server
+              ports:
+                - containerPort: 5055
+              resources: {}
+              volumeMounts:
+                - mountPath: /app/actions
+                  name: action-server-claim0
+          restartPolicy: Always
+          volumes:
+            - name: action-server-claim0
+              persistentVolumeClaim:
+                claimName: action-server-claim0
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: action-server-claim0
+      name: action-server-claim0
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: chatbotui
+      name: chatbotui
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: chatbotui
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+            kompose.version: 1.27.0 (b0ed6a2c9)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: chatbotui
+        spec:
+          containers:
+            - image: tomjacobseu/kompose-chatbotui:1.4
+              name: chatbot-ui
+              ports:
+                - containerPort: 3000
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+      name: mysql
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: mysql
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+            kompose.version: 1.27.0 (b0ed6a2c9)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: mysql
+        spec:
+          containers:
+            - env:
+                - name: MYSQL_DATABASE
+                  value: db
+                - name: MYSQL_ROOT_PASSWORD
+                  value: password
+              image: tomjacobseu/kompose-mysql:1.0
+              name: db
+              ports:
+                - containerPort: 3306
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nginx
+      name: nginx
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: nginx
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+            kompose.version: 1.27.0 (b0ed6a2c9)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: nginx
+        spec:
+          containers:
+            - image: nginx
+              name: nginx
+              ports:
+                - containerPort: 80
+              resources: {}
+              volumeMounts:
+                - mountPath: /etc/nginx.conf
+                  name: nginx-claim0
+                  subPath: nginx.conf
+          restartPolicy: Always
+          volumes:
+            - name: nginx-claim0
+              persistentVolumeClaim:
+                claimName: nginx-claim0
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nginx-claim0
+      name: nginx-claim0
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: rasa
+      name: rasa
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: rasa
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kompose-manifests1.yaml
+            kompose.version: 1.27.0 (b0ed6a2c9)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: rasa
+        spec:
+          containers:
+            - image: tomjacobseu/kompose-rasa:1.0
+              name: rasa-server
+              ports:
+                - containerPort: 5005
+              resources: {}
+          restartPolicy: Always
+    status: {}
+kind: List
+metadata: {}
+
